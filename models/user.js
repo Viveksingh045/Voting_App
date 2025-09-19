@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 
 const userSchema = new mongoose.Schema({
@@ -52,10 +53,10 @@ userSchema.pre('save', async function(next){
         const salt = await bcrypt.genSalt(10);
 
         // hash password
-        const hashedPassword = await bcrypt.hash(person.password, salt);
+        const hashedPassword = await bcrypt.hash(user.password, salt);
         
         // Override the plain password with the hashed one
-        person.password = hashedPassword;
+        user.password = hashedPassword;
         next();
     }catch(err){
         return next(err);

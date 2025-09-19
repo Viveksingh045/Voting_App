@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('./../models/user');
 const {jwtAuthMiddleware, generateToken} = require('./../jwt');
+const bcrypt = require('bcryptjs');
 
 // POST route to add a user
 router.post('/signup', async (req, res) =>{
     try{
-        const data = req.body // Assuming the request body contains the person data
+        const data = req.body // Assuming the request body contains the user data
 
         // Create a new User document using the Mongoose model
         const newUser = new User(data);
@@ -74,10 +75,10 @@ router.get('/profile', jwtAuthMiddleware, async (req, res) => {
     }
 })
 
-// GET method to get the person
+// GET method to get the user
 router.get('/', async (req, res) =>{
     try{
-        const data = await Person.find();
+        const data = await User.find();
         console.log('data fetched');
         res.status(200).json(data);
     }catch(err){
