@@ -18,7 +18,7 @@ const candidateRoutes = require('./routes/candidateRoutes');
 
 // Use the routers
 app.use('/user', userRoutes);
-app.use('/candidate', jwtAuthMiddleware, candidateRoutes);
+app.use('/candidate',  candidateRoutes);
 
 
 app.listen(PORT, () => {

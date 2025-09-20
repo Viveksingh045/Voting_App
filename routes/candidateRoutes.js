@@ -4,6 +4,7 @@ const Candidate = require('../models/candidate');
 const {jwtAuthMiddleware} = require('../jwt');
 const bcrypt = require('bcryptjs');
 
+
 const checkAdminRole = async(userID) =>{
     try{
         const user = await User.findById(userID);
@@ -14,7 +15,7 @@ const checkAdminRole = async(userID) =>{
 }
 
 // POST route to add a candidate
-router.post('/', async (req, res) =>{
+router.post('/', jwtAuthMiddleware, async (req, res) =>{
     try{
         if(!await checkAdminRole(req.user.id))
             return res.status(403).json({error: 'Access denied'});
@@ -50,7 +51,8 @@ router.get('/', async (req, res) =>{
     }
 })
 
-router.put('/:candidateID', async (req, res)=>{
+// PUT method to update candidate data
+router.put('/:candidateID', jwtAuthMiddleware,async (req, res)=>{
     try{
         if(!await checkAdminRole(req.user.id))
             return res.status(403).json({error: 'Access denied'});
@@ -75,7 +77,9 @@ router.put('/:candidateID', async (req, res)=>{
     }
 })
 
-router.put('/:candidateID', async (req, res)=>{
+
+// DELETE method to delete candidate data
+router.delete('/:candidateID', jwtAuthMiddleware, async (req, res) => {
     try{
         if(!await checkAdminRole(req.user.id))
             return res.status(403).json({error: 'Access denied'});
