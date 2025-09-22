@@ -8,7 +8,7 @@ const bodyparser = require('body-parser');
 app.use(bodyparser.json());
 const PORT = process.env.PORT || 3000;
 
-const {jwtAuthMiddleware} = require('./jwt');
+
 
 
 // Import the router files
