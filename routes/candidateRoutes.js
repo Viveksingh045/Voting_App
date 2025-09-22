@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const User = require('../models/user');
 const Candidate = require('../models/candidate');
 const {jwtAuthMiddleware} = require('../jwt');
-const bcrypt = require('bcryptjs');
 
 
 const checkAdminRole = async(userID) =>{
@@ -17,8 +17,8 @@ const checkAdminRole = async(userID) =>{
 // POST route to add a candidate
 router.post('/', jwtAuthMiddleware, async (req, res) =>{
     try{
-        if(!await checkAdminRole(req.user.id))
-            return res.status(403).json({error: 'Access denied'});
+        if(!(await checkAdminRole(req.user.id)))
+            return res.status(403).json({error: 'User is not admin'});
         const data = req.body // Assuming the request body contains the candidate data
 
         // Create a new Candidate document using the Mongoose model
